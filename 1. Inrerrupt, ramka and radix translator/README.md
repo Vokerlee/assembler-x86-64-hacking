@@ -9,7 +9,7 @@ The first program to train writing assembler code is `ramka.asm`. It uses videom
 
 # Radix translator
 
-The second program is `radix.asm`, that get the rigister with input number and prints the number in different representations in the console.
+The second program is `radix.asm`, that getы the rigister with input number and prints the number in different representations in the console.
 
 # Keyboard interrupt
 
