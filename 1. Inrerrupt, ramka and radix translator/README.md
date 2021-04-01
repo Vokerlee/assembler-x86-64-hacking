@@ -15,6 +15,6 @@ The second program is `radix.asm`, that get the rigister with input number and p
 
 The third program is `keyboard_interrupt.asm`. If the button `S` is pressed, the following picture appears:
 
-<img src="Keyboard interrupt//interrupt.png" alt="drawing" width="400"/>
+<img src="Keyboard interrupt//interrupt.png" alt="drawing" width="350"/>
 
 It also uses videomemory to draw the ramka and changes the interrupt table in DOS, that controles all buttons in keyboard. After all button actions, old handler is runned.
