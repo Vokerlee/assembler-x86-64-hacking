@@ -1,4 +1,4 @@
-# D Flip-Flop realization
+# Introductory assembler programs
 
 All the programs are written for DOS OS.
 
