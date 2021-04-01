@@ -14,4 +14,4 @@ The second program is `radix.asm`, that get the rigister with input number and p
 # Keyboard interrupt
 
 The third program is `keyboard_interrupt.asm`. If the button `S` is pressed, the following picture appears:
-<img src="Keyboard interrupt//interrupt.png" alt="drawing" width="600"/>
+<img src="Keyboard interrupt//interrupt.png" alt="drawing" width="400"/>
