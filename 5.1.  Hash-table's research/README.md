@@ -39,7 +39,7 @@ Lets check for fun, what will be, if the we make the hash the first byte of the 
 ## Xor rotate (rol) hash
 
 Stop playing children's games. Now everything is serious. Consider the following code of hash-calculating:
-```(C++)
+```C++
     while (*string)
     {
         hash = hash ^ (*string);
