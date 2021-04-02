@@ -83,7 +83,7 @@ int operator()(char* string)
     uint32_t i = 0;
     uint32_t len = strlen(string);
     uint32_t hash = 0;
-
+```C++
     while (i != len)
     {
         hash += string[i++];
@@ -97,6 +97,7 @@ int operator()(char* string)
 
     return hash % TABLE_SIZE;
 }
+```
 
 <img src="Data//Jenkins hash.png" alt="drawing" width="400"/>
 
