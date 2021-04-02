@@ -58,22 +58,14 @@ This case diffres from all previous cases. Now we have good hash wuth `D = 35.12
 
 ## CRC32 hash
 
-This hash function is one of the most famous. Lets test it:
-```C++
-    uint32_t hash = 0;
-    
-    while (*string)
-    {
-        hash = hash ^ (*string);
-        uint32_t oldest_bit = hash & 0x80000000;
-        oldest_bit >>= 31;
-        hash <<= 1;
-        hash |= oldest_bit;
-        ++string;
-    }
-```
-This case diffres from all previous cases. Now we have good hash wuth `D = 25.19`.
+This hash function is one of the most famous. Lets test it: `D = 25.19`.
 
 <img src="Data//CRC32 hash.png" alt="drawing" width="400"/>
+
+## Murmur hash
+
+It has almost the same variance: `D = 23.69`.
+
+<img src="Data//MurMur hash.png" alt="drawing" width="400"/>
 
 
