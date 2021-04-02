@@ -78,12 +78,13 @@ How was noticed, this hash depends on the time, when he was calculated. So the a
 
 The last candidate in out list is Jenkins hash. It is interesting, tthat it has a  simple realization (`D = 22.42`):
 
+```C++
 int operator()(char* string)
 {
     uint32_t i = 0;
     uint32_t len = strlen(string);
     uint32_t hash = 0;
-```C++
+
     while (i != len)
     {
         hash += string[i++];
