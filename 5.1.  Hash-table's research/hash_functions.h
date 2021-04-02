@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cstring>
 #include "config.h"
+//#include "fast_string_functions.h"
 
 class ConstantHash
 {
@@ -57,6 +58,7 @@ public:
             ++string;
         }
 
+
         return sum / len;
     }
 };
@@ -75,7 +77,7 @@ public:
         }
 
         uint32_t hash = 0;
-        
+
         while (*string)
         {
             hash = hash ^ (*string);
@@ -85,8 +87,8 @@ public:
             hash |= oldest_bit;
             ++string;
         }
-        
-        return hash % TABLE_SIZE;
+
+        return hash;
     }
 };
 
@@ -98,7 +100,7 @@ public:
 
     int operator()(char* string)
     {
-        return std::hash<char*>{}(string) % TABLE_SIZE;
+        return std::hash<char*>{}(string);
     }
 };
 
@@ -108,7 +110,7 @@ public:
     CRC32Hash() = default;
     ~CRC32Hash() = default;
 
-    unsigned int operator()(char* string)
+    int operator()(char* string)
     {
         int length = strlen(string);
         unsigned long crc_table[256];
@@ -137,7 +139,7 @@ public:
     MurmurHash2() = default;
     ~MurmurHash2() = default;
 
-    unsigned int operator()(char* string)
+    int operator()(char* string)
     {
         int length = strlen(string);
 
@@ -183,33 +185,89 @@ public:
         h *= m;
         h ^= h >> 15;
 
-        return h % TABLE_SIZE;
+        return h;
     }
 };
 
+/*class JenkinsHash
+{
+public:
+    JenkinsHash() = default;
+    ~JenkinsHash() = default;
+
+    int operator()(char* string)
+    {
+        uint32_t i = 0;
+        uint32_t len = strlen(string);
+        uint32_t hash = 0;
+
+        while (i != len)
+        {
+            hash += string[i++];
+            hash += hash << 10;
+            hash ^= hash >> 6;
+        }
+
+        hash += hash << 3;
+        hash ^= hash >> 11;
+        hash += hash << 15;
+
+        return hash;
+    }
+};*/
+
 class JenkinsHash
 {
-    public:
-        JenkinsHash() = default;
-        ~JenkinsHash() = default;
-    
-        int operator()(char* string)
+public:
+    JenkinsHash() = default;
+    ~JenkinsHash() = default;
+
+    inline int operator()(char* string)
+    {
+        uint32_t len  = strlen(string);
+        uint32_t hash = 0;
+
+        __asm 
         {
-            uint32_t i = 0;
-            uint32_t len = strlen(string);
-            uint32_t hash = 0;
-            
-            while (i != len)
-            {
-                hash += string[i++];
-                hash += hash << 10;
-                hash ^= hash >> 6;
-            }
-            
-            hash += hash << 3;
-            hash ^= hash >> 11;
-            hash += hash << 15;
-            
-            return hash % TABLE_SIZE;
+                mov eax, hash
+                mov ecx, len
+                mov esi, string
+
+            jenkins_loop:
+                cmp ecx, 0
+                je jenkins_loop_end
+                dec ecx
+
+                xor ebx, ebx
+                mov bl, [esi]
+                add eax, ebx
+
+                mov ebx, eax
+                shl ebx, 10
+                add eax, ebx
+
+                mov ebx, eax
+                shr ebx, 6
+                xor eax, ebx
+
+                jmp jenkins_loop
+
+            jenkins_loop_end:
+                mov ebx, eax
+                shl ebx, 3
+                add eax, ebx
+
+                mov ebx, eax
+                shr ebx, 11
+                xor eax, ebx
+
+                mov ebx, eax
+                shl ebx, 15
+                add eax, ebx
+
+                mov hash, eax
         }
+
+        return hash;
+    }
 };
