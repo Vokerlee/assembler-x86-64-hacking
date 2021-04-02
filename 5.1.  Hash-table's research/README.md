@@ -22,6 +22,18 @@ In this case the variance of the distribution is `D = 63139`. That's better.
 
 It seems, that if we summarize the ASCII codes of all bytes in the data, it will be much better.
 
-Claculate again the variance of the distribution: `D = 63139`. Better expected!
+Calculate again the variance of the distribution: `D = 49370`. Better expected!
 
 <img src="Data//ASCIILen hash.png" alt="drawing" width="440"/>
+
+## First symbol hash
+
+In two las pictures we can see, that almost all the data values have similar hashes, because the lengths of the words are similar, so the ASCII sum.
+
+Lets check for fun, what will be, if the we make the hash the first byte of the data:
+
+`D = 49370`. And there was no need to be clever!
+
+<img src="Data//FirstByte hash.png" alt="drawing" width="440"/>
+
+
