@@ -29,7 +29,7 @@ Calculate again the variance of the distribution: `D = 49370`. Better expected!
 
 ## First symbol hash
 
-In two last pictures we can see, that almost all the data values have similar hashes, because the lengths of the words are similar, so the ASCII sum.
+In two last pictures we can see, that almost all the data values have similar hashes, because the lengths of the words are similar, so the ASCII sums are.
 
 Lets check for fun, what will be, if the we make the hash the first byte of the data:
 
