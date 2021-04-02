@@ -192,6 +192,7 @@ class JenkinsHash
     public:
         JenkinsHash() = default;
         ~JenkinsHash() = default;
+    
         int operator()(char* string)
         {
             uint32_t i = 0;
@@ -206,6 +207,7 @@ class JenkinsHash
             hash += hash << 3;
             hash ^= hash >> 11;
             hash += hash << 15;
+            
             return hash % TABLE_SIZE;
         }
 };
