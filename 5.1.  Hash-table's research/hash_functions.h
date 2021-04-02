@@ -3,7 +3,6 @@
 #include <cstdint>
 #include <cstring>
 #include "config.h"
-//#include "fast_string_functions.h"
 
 class ConstantHash
 {
@@ -189,7 +188,7 @@ public:
     }
 };
 
-/*class JenkinsHash
+class JenkinsHash
 {
 public:
     JenkinsHash() = default;
@@ -211,62 +210,6 @@ public:
         hash += hash << 3;
         hash ^= hash >> 11;
         hash += hash << 15;
-
-        return hash;
-    }
-};*/
-
-class JenkinsHash
-{
-public:
-    JenkinsHash() = default;
-    ~JenkinsHash() = default;
-
-    inline int operator()(char* string)
-    {
-        uint32_t len  = strlen(string);
-        uint32_t hash = 0;
-
-        __asm 
-        {
-                mov eax, hash
-                mov ecx, len
-                mov esi, string
-
-            jenkins_loop:
-                cmp ecx, 0
-                je jenkins_loop_end
-                dec ecx
-
-                xor ebx, ebx
-                mov bl, [esi]
-                add eax, ebx
-
-                mov ebx, eax
-                shl ebx, 10
-                add eax, ebx
-
-                mov ebx, eax
-                shr ebx, 6
-                xor eax, ebx
-
-                jmp jenkins_loop
-
-            jenkins_loop_end:
-                mov ebx, eax
-                shl ebx, 3
-                add eax, ebx
-
-                mov ebx, eax
-                shr ebx, 11
-                xor eax, ebx
-
-                mov ebx, eax
-                shl ebx, 15
-                add eax, ebx
-
-                mov hash, eax
-        }
 
         return hash;
     }
