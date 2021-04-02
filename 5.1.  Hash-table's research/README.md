@@ -73,15 +73,18 @@ This hash function is one of the most famous. Lets test it: `D = 25.19`.
 
 ## Murmur hash
 
-It has almost the same variance: `D = 23.69`.
-
-<img src="Data//MurMur hash.png" alt="drawing" width="400"/>
+It has almost the same variance: `D = 23.69`. (The picture is below)
 
 ## Standart library hash (std::hash)
 
 How was noticed, this hash depends on the time, when he was calculated. So the average number of variances is calculated: `D = 21.75`.
 
-<img src="Data//STDHash hash.png" alt="drawing" width="400"/>
+<table>
+    <tr>
+        <td> <img src="Data//MurMur hash.png" alt="drawing" width="400"/> </td>
+        <td> <img src="Data//STDHash hash.png" alt="drawing" width="400"/> </td>
+    </tr>
+</table>
 
 ## Jenkins hash
 
