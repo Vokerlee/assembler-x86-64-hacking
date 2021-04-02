@@ -24,4 +24,4 @@ It seems, that if we summarize the ASCII codes of all bytes in the data, it will
 
 Claculate again the variance of the distribution: `D = 63139`. Better expected!
 
-<img src="Data//ASCIIlen hash.png" alt="drawing" width="440"/>
+<img src="Data//ASCIILen hash.png" alt="drawing" width="440"/>
