@@ -57,7 +57,6 @@ public:
             ++string;
         }
 
-
         return sum / len;
     }
 };
@@ -76,6 +75,7 @@ public:
         }
 
         uint32_t hash = 0;
+        
         while (*string)
         {
             hash = hash ^ (*string);
@@ -85,6 +85,7 @@ public:
             hash |= oldest_bit;
             ++string;
         }
+        
         return hash % TABLE_SIZE;
     }
 };
