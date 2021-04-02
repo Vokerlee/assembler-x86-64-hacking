@@ -32,7 +32,7 @@ In two las pictures we can see, that almost all the data values have similar has
 
 Lets check for fun, what will be, if the we make the hash the first byte of the data:
 
-`D = 49370`. And there was no need to be clever!
+`D = 22304`. In some times less, than the previous variances!!! And there was no need to be clever!
 
 <img src="Data//FirstByte hash.png" alt="drawing" width="440"/>
 
