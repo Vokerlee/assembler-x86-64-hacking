@@ -8,7 +8,11 @@ The size of hash table is 1009 (simple number), the number of words is 24000.
 This function always returns index 1009 / 2 = 504.
 In this case the variance of the distribution is `D = 570860`.
 
-<img src="Data//Constant hash.png" alt="drawing" width="400"/>
+ <tr>
+    <td> <img src="Data//Constant hash.png" alt="drawing" width="400"/> </td>
+    <td> <img src="Data//Constant hash.png" alt="drawing" width="400"/> </td>
+    </tr>
+
 
 ## Strlen hash
 
