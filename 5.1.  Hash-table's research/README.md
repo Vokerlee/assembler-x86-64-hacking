@@ -7,4 +7,4 @@ The size of hash table is 1009 (simple number), the number of words is 24000.
 
 This function always return index 1009 / 2 = 504.
 
-<img src="Data//Constant hash.png" alt="drawing" width="500"/>
+<img src="Data//Constant hash.png" alt="drawing" width="440"/>
