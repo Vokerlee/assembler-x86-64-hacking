@@ -27,8 +27,6 @@ It seems, that if we summarize the ASCII codes of all bytes in the data, it will
 
 Calculate again the variance of the distribution: `D = 49370`. Better expected!
 
-<img src="Data//ASCIILen hash.png" alt="drawing" width="400"/>
-
 ## First symbol hash
 
 In two last pictures we can see, that almost all the data values have similar hashes, because the lengths of the words are similar, so the ASCII sum.
@@ -37,7 +35,12 @@ Lets check for fun, what will be, if the we make the hash the first byte of the 
 
 `D = 22304`. In some times less, than the previous variances!!! And there was no need to be clever!
 
-<img src="Data//FirstByte hash.png" alt="drawing" width="400"/>
+<table>
+    <tr>
+        <td> <img src="Data//ASCIILen hash.png" alt="drawing" width="400"/> </td>
+        <td> <img src="Data//FirstByte hash.png" alt="drawing" width="400"/> </td>
+    </tr>
+</table>
 
 ## Xor rotate (rol) hash
 
@@ -57,13 +60,16 @@ Stop playing children's games. Now everything is serious. Consider the following
 ```
 This case diffres from all previous cases. Now we have good hash wuth `D = 35.12`.
 
-<img src="Data//ASCIIXor hash.png" alt="drawing" width="400"/>
-
 ## CRC32 hash
 
 This hash function is one of the most famous. Lets test it: `D = 25.19`.
 
-<img src="Data//CRC32 hash.png" alt="drawing" width="400"/>
+<table>
+    <tr>
+        <td> <img src="Data//ASCIIXor hash.png" alt="drawing" width="400"/> </td>
+        <td> <img src="Data//CRC32 hash.png" alt="drawing" width="400"/> </td>
+    </tr>
+</table>
 
 ## Murmur hash
 
