@@ -28,11 +28,28 @@ Calculate again the variance of the distribution: `D = 49370`. Better expected!
 
 ## First symbol hash
 
-In two las pictures we can see, that almost all the data values have similar hashes, because the lengths of the words are similar, so the ASCII sum.
+In two last pictures we can see, that almost all the data values have similar hashes, because the lengths of the words are similar, so the ASCII sum.
 
 Lets check for fun, what will be, if the we make the hash the first byte of the data:
 
 `D = 22304`. In some times less, than the previous variances!!! And there was no need to be clever!
+
+<img src="Data//FirstByte hash.png" alt="drawing" width="440"/>
+
+## Xor rotate (rol) hash
+
+Stop playing children's games. Now everything is serious. Consider the following code of hash-calculating:
+```(C++)
+    while (*string)
+    {
+        hash = hash ^ (*string);
+        uint32_t oldest_bit = hash & 0x80000000;
+        oldest_bit >>= 31;
+        hash <<= 1;
+        hash |= oldest_bit;
+        ++string;
+    }
+```
 
 <img src="Data//FirstByte hash.png" alt="drawing" width="440"/>
 
