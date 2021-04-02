@@ -68,4 +68,36 @@ It has almost the same variance: `D = 23.69`.
 
 <img src="Data//MurMur hash.png" alt="drawing" width="400"/>
 
+## Standart library hash (std::hash)
+
+How was noticed, this hash depends on the time, when he was calculated. So the average number of variances is calculated: `D = 21.75`.
+
+<img src="Data//STDHash hash.png" alt="drawing" width="400"/>
+
+## Jenkins hash
+
+The last candidate in out list is Jenkins hash. It is interesting, tthat it has a  simple realization (`D = 22.42`):
+
+int operator()(char* string)
+{
+    uint32_t i = 0;
+    uint32_t len = strlen(string);
+    uint32_t hash = 0;
+
+    while (i != len)
+    {
+        hash += string[i++];
+        hash += hash << 10;
+        hash ^= hash >> 6;
+    }
+
+    hash += hash << 3;
+    hash ^= hash >> 11;
+    hash += hash << 15;
+
+    return hash % TABLE_SIZE;
+}
+
+<img src="Data//Jenkins hash.png" alt="drawing" width="400"/>
+
 
