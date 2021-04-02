@@ -18,7 +18,7 @@ In this case the variance of the distribution is `D = 63139`. That's better.
 
 <img src="Data//Strlen hash.png" alt="drawing" width="440"/>
 
-## Strlen hash
+## Sum of ASCII numbers hash
 
 It seems, that if we summarize the ASCII codes of all bytes in the data, it will be much better.
 
