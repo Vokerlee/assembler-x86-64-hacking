@@ -40,6 +40,8 @@ Lets check for fun, what will be, if the we make the hash the first byte of the 
 
 Stop playing children's games. Now everything is serious. Consider the following code of hash-calculating:
 ```C++
+    uint32_t hash = 0;
+    
     while (*string)
     {
         hash = hash ^ (*string);
@@ -50,7 +52,8 @@ Stop playing children's games. Now everything is serious. Consider the following
         ++string;
     }
 ```
+This case diffres from all previous cases. Now we have good hash wuth `D = 35.12`.
 
-<img src="Data//FirstByte hash.png" alt="drawing" width="440"/>
+<img src="Data//ASCIIXor hash.png" alt="drawing" width="440"/>
 
 
