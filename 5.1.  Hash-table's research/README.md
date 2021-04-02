@@ -107,10 +107,8 @@ int operator()(char* string)
 
 All the results are placed in the table:
 
-| Hashes        | Constant      | Strlen  | ASCII sum | First byte | Rol | CRC32 | Murmur | std::hash | Jenkins
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| Hashes     | Constant | Strlen | ASCII sum | First byte | Rol | CRC32 | Murmur | std::hash | Jenkins |
+
+| Variance   | 570860   | 63139  | 49370 | First byte | Rol | CRC32 | Murmur | std::hash | Jenkins |
 
 
