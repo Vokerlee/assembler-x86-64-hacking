@@ -1,7 +1,7 @@
 # Research of hash functions, based on hash table with chaining method 
 
 This lab investigates occupancy rate of different hash functions.
-The size of hash table is 1009 (simple number), the number of words is 24000.
+The size of hash table is <ins> 1009 </ins> (simple number), the number of words is <ins> 24000 </ins>.
 
 ## Constant hash
 
