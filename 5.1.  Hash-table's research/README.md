@@ -16,7 +16,7 @@ Lets develop our function. Add some unique input data characteristic, for exampl
 
 In this case the variance of the distribution is `D = 63139`. That's better.
 
-<img src="Data//Strlen hash.png" alt="drawing" width="440"/>
+<img src="Data//Strlen hash.png" alt="drawing" width="400"/>
 
 ## Sum of ASCII numbers hash
 
