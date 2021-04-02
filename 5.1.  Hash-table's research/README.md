@@ -1,6 +1,6 @@
-# Research of hash functions, based on hash table with chaining method 
+# Research of hash functions
 
-This lab investigates occupancy rate of different hash functions.
+This lab investigates occupancy rate of different hash functions. All the mesurements are cinducted with hash-table, based on chaining method.
 The size of hash table is <ins> 1009 </ins> (simple number), the number of words is <ins> 24000 </ins>.
 
 ## Constant hash
