@@ -8,7 +8,7 @@ The size of hash table is 1009 (simple number), the number of words is 24000.
 This function always returns index 1009 / 2 = 504.
 In this case the variance of the distribution is `D = 570860`.
 
-<img src="Data//Constant hash.png" alt="drawing" width="440"/>
+<img src="Data//Constant hash.png" alt="drawing" width="400"/>
 
 ## Strlen hash
 
@@ -24,7 +24,7 @@ It seems, that if we summarize the ASCII codes of all bytes in the data, it will
 
 Calculate again the variance of the distribution: `D = 49370`. Better expected!
 
-<img src="Data//ASCIILen hash.png" alt="drawing" width="440"/>
+<img src="Data//ASCIILen hash.png" alt="drawing" width="400"/>
 
 ## First symbol hash
 
@@ -34,7 +34,7 @@ Lets check for fun, what will be, if the we make the hash the first byte of the 
 
 `D = 22304`. In some times less, than the previous variances!!! And there was no need to be clever!
 
-<img src="Data//FirstByte hash.png" alt="drawing" width="440"/>
+<img src="Data//FirstByte hash.png" alt="drawing" width="400"/>
 
 ## Xor rotate (rol) hash
 
@@ -54,6 +54,26 @@ Stop playing children's games. Now everything is serious. Consider the following
 ```
 This case diffres from all previous cases. Now we have good hash wuth `D = 35.12`.
 
-<img src="Data//ASCIIXor hash.png" alt="drawing" width="440"/>
+<img src="Data//ASCIIXor hash.png" alt="drawing" width="400"/>
+
+## CRC32 hash
+
+This hash function is one of the most famous. Lets test it:
+```C++
+    uint32_t hash = 0;
+    
+    while (*string)
+    {
+        hash = hash ^ (*string);
+        uint32_t oldest_bit = hash & 0x80000000;
+        oldest_bit >>= 31;
+        hash <<= 1;
+        hash |= oldest_bit;
+        ++string;
+    }
+```
+This case diffres from all previous cases. Now we have good hash wuth `D = 25.19`.
+
+<img src="Data//CRC32 hash.png" alt="drawing" width="400"/>
 
 
