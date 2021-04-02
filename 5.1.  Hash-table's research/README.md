@@ -76,7 +76,7 @@ How was noticed, this hash depends on the time, when he was calculated. So the a
 
 ## Jenkins hash
 
-The last candidate in out list is Jenkins hash. It is interesting, tthat it has a  simple realization (`D = 22.42`):
+The last candidate in out list is Jenkins hash. It is interesting, that it has a  simple realization (`D = 22.42`):
 
 ```C++
 int operator()(char* string)
@@ -101,5 +101,16 @@ int operator()(char* string)
 ```
 
 <img src="Data//Jenkins hash.png" alt="drawing" width="400"/>
+
+
+## Conclusion
+
+All the results are placed in the table:
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
 
 
