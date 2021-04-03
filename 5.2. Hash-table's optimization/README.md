@@ -53,7 +53,7 @@ public:
 All the code can be rewritten to assembler, so the function `strlen` can be.
 Using our super brain, create the same code in assemler:
 
-```asm
+```C++
 class JenkinsHash
 {
 public:
