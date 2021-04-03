@@ -98,12 +98,12 @@ inline int operator()(char* string)
 ```
 Here is the realization of `fast_strlen`:
 
-```C++
+```asm
 inline int fast_strlen(char* str)
 {
     unsigned long* chunk = reinterpret_cast<unsigned long*>(str);
     int res = 0;
-```asm
+
     __asm 
     {
             xor ecx, ecx
@@ -126,7 +126,7 @@ inline int fast_strlen(char* str)
             shl ecx, 3
             mov res, ecx
     }
-```
+
     return res;
 }
 ```
