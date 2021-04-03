@@ -64,8 +64,7 @@ public:
     {
         uint32_t len = fast_strlen(string);
         uint32_t hash = 0;
-```
-```asm
+        
         __asm
         {
                 mov eax, hash
@@ -106,8 +105,7 @@ public:
 
                 mov hash, eax
         }
-```
-```C++
+
         return hash;
     }
 };
