@@ -15,3 +15,86 @@ The work algorithm of hash-table:
 To research code we will use Jenkins hash function. Using time-profiler, get the following time-distribution:
 
 <img src="Readme pictures//Initial times.png" alt="drawing" width="800"/>
+
+We can see, that some of the slowest functions are `List<char *>::contains` and `JenkinsHash::operator()`.
+
+## Code optimization
+
+First of all let's rewrite `JenkinsHash::operator()` function. We have:
+
+```C++
+int operator()(char* string)
+{
+    uint32_t i = 0;
+    uint32_t len = strlen(string);
+    uint32_t hash = 0;
+
+    while (i != len)
+    {
+        hash += string[i++];
+        hash += hash << 10;
+        hash ^= hash >> 6;
+    }
+
+    hash += hash << 3;
+    hash ^= hash >> 11;
+    hash += hash << 15;
+
+    return hash;
+}
+```
+
+Using our super brain, create the same  code in assemler:
+
+```asm
+inline int operator()(char* string)
+{
+    uint32_t len  = strlen(string);
+    uint32_t hash = 0;
+
+    __asm 
+    {
+            mov eax, hash
+            mov ecx, len
+            mov esi, string
+
+        jenkins_loop:
+            cmp ecx, 0
+            je jenkins_loop_end
+            dec ecx
+
+            xor ebx, ebx
+            mov bl, [esi + ecx]
+            add eax, ebx
+
+            mov ebx, eax
+            shl ebx, 10
+            add eax, ebx
+
+            mov ebx, eax
+            shr ebx, 6
+            xor eax, ebx
+
+            jmp jenkins_loop
+
+        jenkins_loop_end:
+            mov ebx, eax
+            shl ebx, 3
+            add eax, ebx
+
+            mov ebx, eax
+            shr ebx, 11
+            xor eax, ebx
+
+            mov ebx, eax
+            shl ebx, 15
+            add eax, ebx
+
+            mov hash, eax
+    }
+
+    return hash;
+}
+```
+
+
