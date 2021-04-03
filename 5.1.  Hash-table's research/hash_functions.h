@@ -10,7 +10,7 @@ public:
     ConstantHash() = default;
     ~ConstantHash() = default;
 
-    int operator()(char* string)
+    unsigned int operator()(char* string)
     {
         return TABLE_SIZE / 2;
     }
@@ -22,7 +22,7 @@ public:
     FirstByteHash() = default;
     ~FirstByteHash() = default;
 
-    int operator()(char* string)
+    unsigned int operator()(char* string)
     {
         return *string;
     }
@@ -34,7 +34,7 @@ public:
     StrlenHash() = default;
     ~StrlenHash() = default;
 
-    int operator()(char* string)
+    unsigned int operator()(char* string)
     {
         return strlen(string);
     }
@@ -46,7 +46,7 @@ public:
     ASCIILenHash() = default;
     ~ASCIILenHash() = default;
 
-    int operator()(char* string)
+    unsigned int operator()(char* string)
     {
         int sum = 0;
         int len = strlen(string);
@@ -56,7 +56,6 @@ public:
             sum += *string;
             ++string;
         }
-
 
         return sum / len;
     }
@@ -68,7 +67,7 @@ public:
     ASCIIXorRotate() = default;
     ~ASCIIXorRotate() = default;
 
-    int operator()(char* string)
+    unsigned int operator()(char* string)
     {
         if (!*string)
         {
@@ -97,7 +96,7 @@ public:
     LibrarianHash() = default;
     ~LibrarianHash() = default;
 
-    int operator()(char* string)
+    unsigned int operator()(char* string)
     {
         return std::hash<char*>{}(string);
     }
@@ -109,7 +108,7 @@ public:
     CRC32Hash() = default;
     ~CRC32Hash() = default;
 
-    int operator()(char* string)
+    unsigned int operator()(char* string)
     {
         int length = strlen(string);
         unsigned long crc_table[256];
@@ -138,7 +137,7 @@ public:
     MurmurHash2() = default;
     ~MurmurHash2() = default;
 
-    int operator()(char* string)
+    unsigned int operator()(char* string)
     {
         int length = strlen(string);
 
@@ -194,7 +193,7 @@ public:
     JenkinsHash() = default;
     ~JenkinsHash() = default;
 
-    int operator()(char* string)
+    unsigned int operator()(char* string)
     {
         uint32_t i = 0;
         uint32_t len = strlen(string);
