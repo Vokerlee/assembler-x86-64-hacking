@@ -54,19 +54,19 @@ public:
 
     void add(T value)
     {
-        int hashed = (unsigned int) hash_(value) % TABLE_SIZE;
+        int hashed = hash_(value) % TABLE_SIZE;
         table_[hashed].push_back(value);
     }
 
     void remove(T value)
     {
-        int hashed = (unsigned int) hash_(value) % TABLE_SIZE;
+        int hashed = hash_(value) % TABLE_SIZE;
         table_[hashed].erase(value);
     }
 
     bool contains(T value) noexcept
     {
-        int hashed = (unsigned int) hash_(value) % TABLE_SIZE;
+        int hashed = hash_(value) % TABLE_SIZE;
 
         return table_[hashed].contains(value);
     }
