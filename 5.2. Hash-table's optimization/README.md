@@ -22,7 +22,7 @@ We can see, that some of the slowest functions are `List<char *>::contains` and 
 
 First of all let's rewrite `JenkinsHash::operator()` function. We have:
 
-```asm
+```C++
 class JenkinsHash
 {
 public:
@@ -54,61 +54,54 @@ All the code can be rewritten to assembler, so the function `strlen` can be.
 Using our super brain, create the same code in assemler:
 
 ```asm
-class JenkinsHash
+inline unsigned int operator()(char* string)
 {
-public:
-    JenkinsHash() = default;
-    ~JenkinsHash() = default;
+    uint32_t len = fast_strlen(string);
+    uint32_t hash = 0;
 
-    inline unsigned int operator()(char* string)
+    __asm
     {
-        uint32_t len = fast_strlen(string);
-        uint32_t hash = 0;
-        
-        __asm
-        {
-                mov eax, hash
-                mov ecx, len
-                mov esi, string
+            mov eax, hash
+            mov ecx, len
+            mov esi, string
 
-            jenkins_loop:
-                cmp ecx, 0
-                je jenkins_loop_end
-                dec ecx
+        jenkins_loop:
+            cmp ecx, 0
+            je jenkins_loop_end
+            dec ecx
 
-                xor ebx, ebx
-                mov bl, [esi + ecx]
-                add eax, ebx
+            xor ebx, ebx
+            mov bl, [esi + ecx]
+            add eax, ebx
 
-                mov ebx, eax
-                shl ebx, 10
-                add eax, ebx
+            mov ebx, eax
+            shl ebx, 10
+            add eax, ebx
 
-                mov ebx, eax
-                shr ebx, 6
-                xor eax, ebx
+            mov ebx, eax
+            shr ebx, 6
+            xor eax, ebx
 
-                jmp jenkins_loop
+            jmp jenkins_loop
 
-            jenkins_loop_end:
-                mov ebx, eax
-                shl ebx, 3
-                add eax, ebx
+        jenkins_loop_end:
+            mov ebx, eax
+            shl ebx, 3
+            add eax, ebx
 
-                mov ebx, eax
-                shr ebx, 11
-                xor eax, ebx
+            mov ebx, eax
+            shr ebx, 11
+            xor eax, ebx
 
-                mov ebx, eax
-                shl ebx, 15
-                add eax, ebx
+            mov ebx, eax
+            shl ebx, 15
+            add eax, ebx
 
-                mov hash, eax
-        }
-
-        return hash;
+            mov hash, eax
     }
-};
+
+    return hash;
+}
 ```
 Here is the realization of `fast_strlen`:
 
