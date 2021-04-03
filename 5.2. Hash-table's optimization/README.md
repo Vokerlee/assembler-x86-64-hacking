@@ -190,8 +190,8 @@ inline bool fast_strcmp(char* str1, char* str2)
 }
 ```
 
+And now we are ready to test the program again! So let it be!
+
 <img src="Readme pictures//Optimized times.png" alt="drawing" width="800"/>
 
-So we get `23%` boost in the program execution!
-
-
+WOW! We get `23%` boost of the program execution!
