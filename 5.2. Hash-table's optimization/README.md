@@ -43,13 +43,13 @@ int operator()(char* string)
     return hash;
 }
 ```
-
-Using our super brain, create the same  code in assemler:
+All the code can be rewritten to assembler, so the function `strlen` can be.
+Using our super brain, create the same code in assemler:
 
 ```asm
 inline int operator()(char* string)
 {
-    uint32_t len  = strlen(string);
+    uint32_t len  = fast_strlen(string);
     uint32_t hash = 0;
 
     __asm 
@@ -96,5 +96,28 @@ inline int operator()(char* string)
     return hash;
 }
 ```
+Here is the realization of `fast_strlen`:
+
+```asm
+
+
+```
+
+Now let's look at the `List<char *>::contains`:
+```C++
+bool contains(T value) const noexcept
+{
+    Node<T>* cur = back_;
+    
+    while (cur && strcmp(cur->value, value) != 0)
+        cur = cur->prev;
+
+    return cur ? true : false;
+}
+```
+
+As we can see, the essential part of this function is `strcmp`. So let's rewrite it!
+
+
 
 
