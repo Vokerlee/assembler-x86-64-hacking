@@ -154,6 +154,6 @@ bool contains(T value) const noexcept
 
 As we can see, the essential part of this function is `strcmp`. So let's rewrite it!
 
-
+<img src="Readme pictures//Optimized times.png" alt="drawing" width="800"/>
 
 
