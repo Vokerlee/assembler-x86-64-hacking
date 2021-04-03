@@ -10,3 +10,8 @@ The work algorithm of hash-table:
 5. If some words have the same hash (that means the same index in massive), collision appears. To solve this problem lists are used. This picture explains everything:
 
 <img src="Readme pictures//Hashtable.png" alt="drawing" width="600"/>
+
+## Code analysis
+To research code we will use Jenkins hash function. Using time-profiler, get the following time-distribution:
+
+<img src="Readme pictures//Initial times.png" alt="drawing" width="600"/>
