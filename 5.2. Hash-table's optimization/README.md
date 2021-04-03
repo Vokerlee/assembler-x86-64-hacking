@@ -98,9 +98,37 @@ inline int operator()(char* string)
 ```
 Here is the realization of `fast_strlen`:
 
-```asm
+```C++
+inline int fast_strlen(char* str)
+{
+    unsigned long* chunk = reinterpret_cast<unsigned long*>(str);
+    int res = 0;
 
+    __asm 
+    {
+            xor ecx, ecx
+            mov esi, chunk
+            xor ebx, ebx
+            not ebx
 
+        fast_len_loop:
+            cmp ecx, 6
+            je fast_len_loop_end
+
+            mov eax, [esi]
+            xor eax, ebx
+            inc ecx
+
+            cmp eax, ebx
+            jne fast_len_loop
+
+        fast_len_loop_end:
+            shl ecx, 3
+            mov res, ecx
+    }
+
+    return res;
+}
 ```
 
 Now let's look at the `List<char *>::contains`:
