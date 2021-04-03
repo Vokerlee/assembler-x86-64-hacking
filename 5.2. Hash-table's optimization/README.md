@@ -9,4 +9,4 @@ The work algorithm of hash-table:
 4. Appropriate value put in the massive.
 5. If some words have the same hash (that means the same index in massive), collision appears. To solve this problem lists are used. This picture explains everything:
 
-<img src="Readme pictures//Hashtable.png" alt="drawing" width="400"/>
+<img src="Readme pictures//Hashtable.png" alt="drawing" width="600"/>
