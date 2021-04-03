@@ -189,7 +189,7 @@ inline bool fast_strcmp(char* str1, char* str2)
     return res;
 }
 ```
-
+## Summarizing
 And now we are ready to test the program again! So let it be!
 
 <img src="Readme pictures//Optimized times.png" alt="drawing" width="800"/>
