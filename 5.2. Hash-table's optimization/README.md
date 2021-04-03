@@ -14,4 +14,4 @@ The work algorithm of hash-table:
 ## Code analysis
 To research code we will use Jenkins hash function. Using time-profiler, get the following time-distribution:
 
-<img src="Readme pictures//Initial times.png" alt="drawing" width="600"/>
+<img src="Readme pictures//Initial times.png" alt="drawing" width="800"/>
