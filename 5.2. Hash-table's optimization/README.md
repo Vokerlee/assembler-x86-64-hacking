@@ -22,7 +22,7 @@ We can see, that some of the slowest functions are `List<char *>::contains` and 
 
 First of all let's rewrite `JenkinsHash::operator()` function. We have:
 
-```C++
+```asm
 class JenkinsHash
 {
 public:
@@ -53,7 +53,7 @@ public:
 All the code can be rewritten to assembler, so the function `strlen` can be.
 Using our super brain, create the same code in assemler:
 
-```C++
+```asm
 class JenkinsHash
 {
 public:
