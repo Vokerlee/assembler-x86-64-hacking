@@ -18,7 +18,7 @@ To research code we will use Jenkins hash function. Using time-profiler, get the
 
 We can see, that some of the slowest functions are `List<char *>::contains` and `JenkinsHash::operator()`.
 
-## Code optimization
+## Code optimization №1
 
 First of all let's rewrite `JenkinsHash::operator()` function. We have:
 
@@ -64,6 +64,7 @@ public:
     {
         uint32_t len = fast_strlen(string);
         uint32_t hash = 0;
+```
 ```asm
         __asm
         {
@@ -105,7 +106,8 @@ public:
 
                 mov hash, eax
         }
-
+```
+```C++
         return hash;
     }
 };
@@ -144,6 +146,7 @@ inline int fast_strlen(char* str)
     return res;
 }
 ```
+## Code optimization №1
 
 Now let's look at the `List<char *>::contains`:
 ```C++
