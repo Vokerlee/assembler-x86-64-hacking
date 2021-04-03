@@ -137,7 +137,7 @@ inline int fast_strlen(char* str)
     return res;
 }
 ```
-## Code optimization №1
+## Code optimization №2
 
 Now let's look at the `List<char *>::contains`:
 ```C++
@@ -155,5 +155,7 @@ bool contains(T value) const noexcept
 As we can see, the essential part of this function is `strcmp`. So let's rewrite it!
 
 <img src="Readme pictures//Optimized times.png" alt="drawing" width="800"/>
+
+So we get 23% boost in the program execution!
 
 
