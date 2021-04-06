@@ -278,4 +278,4 @@ Oh, shit... No comments.
 ## Summarizing
 We have lost several battles against the compiler, but not the war!
 
-WOW! We got `99,1232172%` boost of the program execution! (Or 114 times)
+Taking into consideration, that compiler has O2 optimizatoion we got `99,1232172%` boost of the program execution! (Or 114 times)
