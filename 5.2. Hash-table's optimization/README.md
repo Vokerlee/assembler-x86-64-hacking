@@ -109,147 +109,65 @@ Now we have:
 
 But it not all! If think better, the idea to use intrinsics optimization come:
 
-
-
-All the code can be rewritten to assembler, so the function `strlen` can be.
-Using our super brain, create the same code in assemler:
-
-```asm
-inline unsigned int operator()(char* string)
-{
-    uint32_t len = fast_strlen(string);
-    uint32_t hash = 0;
-
-    __asm
-    {
-            mov eax, hash
-            mov ecx, len
-            mov esi, string
-
-        jenkins_loop:
-            cmp ecx, 0
-            je jenkins_loop_end
-            dec ecx
-
-            xor ebx, ebx
-            mov bl, [esi + ecx]
-            add eax, ebx
-
-            mov ebx, eax
-            shl ebx, 10
-            add eax, ebx
-
-            mov ebx, eax
-            shr ebx, 6
-            xor eax, ebx
-
-            jmp jenkins_loop
-
-        jenkins_loop_end:
-            mov ebx, eax
-            shl ebx, 3
-            add eax, ebx
-
-            mov ebx, eax
-            shr ebx, 11
-            xor eax, ebx
-
-            mov ebx, eax
-            shl ebx, 15
-            add eax, ebx
-
-            mov hash, eax
-    }
-
-    return hash;
-}
-```
-Here is the realization of `fast_strlen`:
-
-```asm
-inline int fast_strlen(char* str)
-{
-    unsigned long* chunk = reinterpret_cast<unsigned long*>(str);
-    int res = 0;
-
-    __asm 
-    {
-            xor ecx, ecx
-            mov esi, chunk
-            xor ebx, ebx
-            not ebx
-
-        fast_len_loop:
-            cmp ecx, 6
-            je fast_len_loop_end
-
-            mov eax, [esi]
-            xor eax, ebx
-            inc ecx
-
-            cmp eax, ebx
-            jne fast_len_loop
-
-        fast_len_loop_end:
-            shl ecx, 3
-            mov res, ecx
-    }
-
-    return res;
-}
-```
-## Code optimization №2
-
-Now let's look at the `List<char *>::contains`:
 ```C++
-bool contains(T value) const noexcept
+class CRC32Hash
 {
-    Node<T>* cur = back_;
-    
-    while (cur && strcmp(cur->value, value) != 0)
-        cur = cur->prev;
+public:
+    CRC32Hash() = default;
+    ~CRC32Hash() = default;
 
-    return cur ? true : false;
-}
-```
-
-As we can see, the essential part of this function is `strcmp`. So let's rewrite it!
-
-```asm
-inline bool fast_strcmp(char* str1, char* str2)
-{
-    unsigned long* chunk_arr1 = reinterpret_cast<unsigned long*>(str1);
-    unsigned long* chunk_arr2 = reinterpret_cast<unsigned long*>(str2);
-    unsigned long int res = 0;
-
-    __asm
+    unsigned int operator()(char* string)
     {
-            mov edi, chunk_arr1
-            mov esi, chunk_arr2
-            mov ecx, 6
+        int length = strlen(string);
+        unsigned long crc = 0xFFFFFFFFUL;
+        size_t iters = length / sizeof(uint32_t);
 
-        cmp_loop:
-            test ecx, ecx
-            je cmp_loop_end
+        for (size_t i = 0; i < iters; ++i)
+        {
+            crc = _mm_crc32_u32(crc, *(const uint32_t*)string);
+            string += sizeof(uint32_t);
+        }
 
-            dec ecx
-            mov eax, [edi]
-            mov ebx, [esi]
-            xor eax, ebx
-
-            add esi, 4
-            add edi, 4
-
-            test eax, eax
-            je cmp_loop
-
-        cmp_loop_end:
-            mov res, eax
+        return crc;
     }
+};
+```
 
-    return res;
+<img src="Readme pictures//Step3.png" alt="drawing" width="800"/>
+
+Cool. Now let's turn on debug regime to know how other functions work:
+
+<img src="Readme pictures//Debug.png" alt="drawing" width="800"/>
+
+The first functions here are out perpose to boost. It's easy to notice that out hash function owns `strlen` call. Let's try to optimize it with AVX2:
+
+```C++
+inline size_t fast_strlen(const char* str)
+{
+    unsigned int counter = 0;
+    const __m256i* ptr = (__m256i*) str;
+    __m256i zero = _mm256_setzero_si256();
+
+    while (1) 
+    {
+        __m256i mask = _mm256_cmpeq_epi8(*ptr, zero);
+
+        if (!_mm256_testz_si256(mask, mask)) 
+            return (counter * 32) + simple_strlen((char*)ptr);
+
+        counter++;
+        ptr++;
+    }
 }
 ```
+
+Unfortunately, it dosen't help:
+
+<img src="Readme pictures//Step4.png" alt="drawing" width="800"/>
+
+The reason is that we have short words and it is silly to use handler of 32 words in 1 pass. All other variants will slow down the function.
+
+
 ## Summarizing
 And now we are ready to test the program again! So let it be!
 
