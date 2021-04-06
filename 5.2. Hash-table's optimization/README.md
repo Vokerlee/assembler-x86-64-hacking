@@ -66,8 +66,10 @@ public:
     }
 };
 ```
+
 It is awful! CRC-table `C++ unsigned long crc_table[256]` counts every time! Again and again! 
 Urgently fix this by counting the table only 1 time:
+
 ```C++
 class CRC32Hash
 {
@@ -107,6 +109,7 @@ public:
 Now we have:
 <img src="Readme pictures//Step2.png" alt="drawing" width="800"/>
 
+## Code optimization №2
 But it not all! If think better, the idea to use intrinsics optimization come:
 
 ```C++
@@ -139,7 +142,9 @@ Cool. Now let's turn on debug regime to know how other functions work:
 
 <img src="Readme pictures//Debug.png" alt="drawing" width="800"/>
 
-The first functions here are out perpose to boost. It's easy to notice that out hash function owns `strlen` call. Let's try to optimize it with AVX2:
+## Code optimization №3 (fail)
+
+The first functions here are our perpose to boost. It's easy to notice that out hash function owns `strlen` call. Let's try to optimize it with AVX2:
 
 ```C++
 inline size_t fast_strlen(const char* str)
@@ -166,6 +171,29 @@ Unfortunately, it dosen't help:
 <img src="Readme pictures//Step4.png" alt="drawing" width="800"/>
 
 The reason is that we have short words and it is silly to use handler of 32 words in 1 pass. All other variants will slow down the function.
+
+Okey. There is a sense to do the following:
+
+## Code optimization №3 2.0
+
+Вo not despair! We still have `List<char *>::contains` function, where the other function `hash_table<char *, CRC32Hash>::contains` also rests.
+
+Consider it closer:
+
+```C++
+bool contains(T value) const noexcept
+{
+    Node<T>* cur = back_;
+
+    while (cur && strcmp(cur->value, value) != 0)
+        cur = cur->prev;
+
+    return cur ? true : false;
+}
+```
+
+And this time function strcmp challenge us! (We have to win).
+
 
 
 ## Summarizing
