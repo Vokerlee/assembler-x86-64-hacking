@@ -4,52 +4,113 @@ Let's optimize the  program, that was considered in the [last chapter](https://g
 ## What's happening
 The work algorithm of hash-table:
 1. Reading words from some source.
-2. Calculating the hash-number of this words.
-3. This hash-number is the index in massive of hash-table.
-4. Appropriate value put in the massive.
+2. Calculating a hash-number of these words.
+3. This hash-number is the index in massive of our hash-table.
+4. Appropriate value is put in the massive.
 5. If some words have the same hash (that means the same index in massive), collision appears. To solve this problem lists are used. This picture explains everything:
 
 <img src="Readme pictures//Hashtable.png" alt="drawing" width="600"/>
 
 ## Code analysis
-To research code we will use Jenkins hash function. Using time-profiler, get the following time-distribution:
+Okey. Let's create an imitation of some useful work:
+```C++
+int kek = 0;
+for (int i = 0; i < N_SAMPLES; ++i)
+{
+    int word_index = i % N_WORDS;
+    kek = kek + i + table.contains(words + word_index * WORD_SIZE);
+}
 
-<img src="Readme pictures//Initial times.png" alt="drawing" width="800"/>
+printf("Kek = %d", kek);
+```
+To research code we will use CRC32 hash function. Using time-profiler, get the following time-distribution of the program:
 
-We can see, that some of the slowest functions are `List<char *>::contains` and `JenkinsHash::operator()`.
+<img src="Readme pictures//Step1.png" alt="drawing" width="800"/>
+
+Wow wow wow! Function `CRC32Hash::operator()` takes 98% program execution! We need to fix it as soon as possible!
 
 ## Code optimization №1
 
-First of all let's rewrite `JenkinsHash::operator()` function. We have:
+First of all let's look at the `CRC32Hash::operator()` function. We have:
 
 ```C++
-class JenkinsHash
+class CRC32Hash
 {
 public:
-    JenkinsHash() = default;
-    ~JenkinsHash() = default;
+    CRC32Hash() = default;
+    ~CRC32Hash() = default;
 
     unsigned int operator()(char* string)
     {
-        uint32_t i = 0;
-        uint32_t len = strlen(string);
-        uint32_t hash = 0;
+        int length = strlen(string);
+        unsigned long crc = 0xEDB88320UL;
 
-        while (i != len)
+        unsigned long crc_table[256];
+
+        for (int i = 0; i < 256; i++)
         {
-            hash += string[i++];
-            hash += hash << 10;
-            hash ^= hash >> 6;
-        }
+            crc = i;
 
-        hash += hash << 3;
-        hash ^= hash >> 11;
-        hash += hash << 15;
+            for (int j = 0; j < 8; j++)
+                crc = crc & 1 ? (crc >> 1) ^ 0xEDB88320UL : crc >> 1;
 
-        return hash;
+            crc_table[i] = crc;
+        };
+
+        crc = 0xFFFFFFFFUL;
+
+        while (length--)
+            crc = crc_table[(crc ^ *string++) & 0xFF] ^ (crc >> 8);
+
+        return (crc ^ 0xFFFFFFFFUL);
     }
 };
 ```
+It is awful! CRC-table `C++ unsigned long crc_table[256]` counts every time! Again and again! 
+Urgently fix this by counting the table only 1 time:
+```C++
+class CRC32Hash
+{
+public:
+    unsigned long crc = 0xEDB88320UL;
+    unsigned long crc_table[256];
+
+    CRC32Hash()
+    {
+        for (int i = 0; i < 256; i++)
+        {
+            crc = i;
+
+            for (int j = 0; j < 8; j++)
+                crc = crc & 1 ? (crc >> 1) ^ 0xEDB88320UL : crc >> 1;
+
+            crc_table[i] = crc;
+        };
+    }
+
+    ~CRC32Hash() = default;
+
+    unsigned int operator()(char* string)
+    {
+        int length = strlen(string);
+
+        crc = 0xFFFFFFFFUL;
+
+        while (length--)
+            crc = crc_table[(crc ^ *string++) & 0xFF] ^ (crc >> 8);
+
+        return (crc ^ 0xFFFFFFFFUL);
+    }
+};
+```
+
+Now we have:
+<img src="Readme pictures//Step2.png" alt="drawing" width="800"/>
+
+But it not all! If think better, the idea to use intrinsics optimization come:
+
+
+
 All the code can be rewritten to assembler, so the function `strlen` can be.
 Using our super brain, create the same code in assemler:
 
