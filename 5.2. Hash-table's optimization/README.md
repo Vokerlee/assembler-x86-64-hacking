@@ -107,6 +107,7 @@ public:
 ```
 
 Now we have:
+
 <img src="Readme pictures//Step2.png" alt="drawing" width="800"/>
 
 ## Code optimization №2
@@ -172,11 +173,50 @@ Unfortunately, it dosen't help:
 
 The reason is that we have short words and it is silly to use handler of 32 words in 1 pass. All other variants will slow down the function.
 
-Okey. There is a sense to do the following:
+## Code optimization №3 2.0 (fail again)
 
-## Code optimization №3 2.0
+Do not despair! There is a sense to do the following:
 
-Вo not despair! We still have `List<char *>::contains` function, where the other function `hash_table<char *, CRC32Hash>::contains` also rests.
+```asm
+inline size_t ultra_strlen(const char* str)
+{
+    unsigned long* chunk = reinterpret_cast<unsigned long*>(const_cast<char*>(str));
+    int res = 0;
+
+    __asm
+    {
+            xor ecx, ecx
+            mov esi, chunk
+            xor ebx, ebx
+            not ebx
+
+        fast_len_loop:
+            cmp ecx, 6
+            je fast_len_loop_end
+
+            mov eax, [esi]
+            xor eax, ebx
+            inc ecx
+
+            cmp eax, ebx
+            jne fast_len_loop
+
+        fast_len_loop_end:
+            shl ecx, 3
+            mov res, ecx
+    }
+
+    return res;
+}
+```
+
+But this time we lose again...
+
+<img src="Readme pictures//Step5.png" alt="drawing" width="800"/>
+
+## Code optimization №4 (fail...)
+
+We still have `List<char *>::contains` function, where the other function `hash_table<char *, CRC32Hash>::contains` also rests.
 
 Consider it closer:
 
@@ -192,13 +232,50 @@ bool contains(T value) const noexcept
 }
 ```
 
-And this time function strcmp challenge us! (We have to win).
+And this time function `strcmp` challenge us! (We have to win). Сall to mind, that SSE and AVX2 are unuseful in our case. So we have the last chance to boost the program.
+Actions are already familiar:
 
+```asm
+inline bool ultra_strcmp(char* str1, char* str2)
+{
+    unsigned long* chunk_arr1 = reinterpret_cast<unsigned long*>(str1);
+    unsigned long* chunk_arr2 = reinterpret_cast<unsigned long*>(str2);
+    unsigned long int res = 0;
 
+    __asm
+    {
+            mov edi, chunk_arr1
+            mov esi, chunk_arr2
+            mov ecx, 6
+
+        cmp_loop:
+            test ecx, ecx
+            je cmp_loop_end
+
+            dec ecx
+            mov eax, [edi]
+            mov ebx, [esi]
+            xor eax, ebx
+
+            add esi, 4
+            add edi, 4
+
+            test eax, eax
+            je cmp_loop
+
+        cmp_loop_end:
+            mov res, eax
+    }
+
+    return res;
+}
+```
+
+Oh, shit... No comments.
+
+<img src="Readme pictures//Step6.png" alt="drawing" width="800"/>
 
 ## Summarizing
-And now we are ready to test the program again! So let it be!
+We have lost several battles against the compiler, but not the war!
 
-<img src="Readme pictures//Optimized times.png" alt="drawing" width="800"/>
-
-WOW! We get `23%` boost of the program execution!
+WOW! We got `99,1232172%` boost of the program execution! (Or 114 times)
