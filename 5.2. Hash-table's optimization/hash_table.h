@@ -85,8 +85,8 @@ public:
 
     friend void swap(hash_table<T, functor>& first, hash_table<T, functor>& second) noexcept
     {
-        std::swap(first.length, second.length);
-        std::swap(first.hash, second.hash);
-        std::swap(first.table, second.table);
+        std::swap(first.length_, second.length_);
+        std::swap(first.hash_, second.hash_);
+        std::swap(first.table_, second.table_);
     }
 };

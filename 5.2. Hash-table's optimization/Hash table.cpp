@@ -1,8 +1,10 @@
-﻿#include "config.h"
+﻿#define OPTIMIZATION_ON
+
+#include "config.h"
 #include "hash_functions.h"
 #include "hash_table.h"
 
-typedef JenkinsHash HASH;
+typedef CRC32Hash HASH;
 
 int main()
 {
@@ -18,11 +20,14 @@ int main()
         table.add(words + i);
     }
 
+    int kek = 0;
     for (int i = 0; i < N_SAMPLES; ++i)
     {
-        int word_index = rand() % N_WORDS;
-        table.contains(words + word_index * WORD_SIZE);
+        int word_index = i % N_WORDS;
+        kek = kek + i + table.contains(words + word_index * WORD_SIZE);
     }
+
+    printf("Kek = %d", kek);
 
     std::ofstream out;
     out.open(LOG_PATH);

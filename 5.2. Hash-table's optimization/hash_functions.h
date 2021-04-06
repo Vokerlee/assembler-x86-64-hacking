@@ -103,6 +103,7 @@ public:
     }
 };
 
+#ifdef OPTIMIZATION_ON
 class CRC32Hash
 {
 public:
@@ -112,25 +113,55 @@ public:
     unsigned int operator()(char* string)
     {
         int length = strlen(string);
-        unsigned long crc_table[256];
-        unsigned long crc;
+        unsigned long crc = 0xFFFFFFFFUL;
+        size_t iters = length / sizeof(uint32_t);
 
+        for (size_t i = 0; i < iters; ++i)
+        {
+            crc = _mm_crc32_u32(crc, *(const uint32_t*)string);
+            string += sizeof(uint32_t);
+        }
+
+        return crc;
+    }
+};
+#endif
+
+#ifndef OPTIMIZATION_ON
+class CRC32Hash
+{
+public:
+    unsigned long crc = 0xEDB88320UL;
+    unsigned long crc_table[256];
+
+    CRC32Hash()
+    {
         for (int i = 0; i < 256; i++)
         {
             crc = i;
+
             for (int j = 0; j < 8; j++)
                 crc = crc & 1 ? (crc >> 1) ^ 0xEDB88320UL : crc >> 1;
+
             crc_table[i] = crc;
         };
+    }
+
+    ~CRC32Hash() = default;
+
+    unsigned int operator()(char* string)
+    {
+        int length = strlen(string);
 
         crc = 0xFFFFFFFFUL;
 
         while (length--)
             crc = crc_table[(crc ^ *string++) & 0xFF] ^ (crc >> 8);
 
-        return (crc ^ 0xFFFFFFFFUL) % TABLE_SIZE;
+        return (crc ^ 0xFFFFFFFFUL);
     }
 };
+#endif
 
 class MurmurHash2
 {
@@ -194,66 +225,10 @@ public:
     JenkinsHash() = default;
     ~JenkinsHash() = default;
 
-    inline unsigned int operator()(char* string)
-    {
-        uint32_t len = fast_strlen(string);
-        uint32_t hash = 0;
-
-        __asm
-        {
-                mov eax, hash
-                mov ecx, len
-                mov esi, string
-
-            jenkins_loop:
-                cmp ecx, 0
-                je jenkins_loop_end
-                dec ecx
-
-                xor ebx, ebx
-                mov bl, [esi + ecx]
-                add eax, ebx
-
-                mov ebx, eax
-                shl ebx, 10
-                add eax, ebx
-
-                mov ebx, eax
-                shr ebx, 6
-                xor eax, ebx
-
-                jmp jenkins_loop
-
-            jenkins_loop_end:
-                mov ebx, eax
-                shl ebx, 3
-                add eax, ebx
-
-                mov ebx, eax
-                shr ebx, 11
-                xor eax, ebx
-
-                mov ebx, eax
-                shl ebx, 15
-                add eax, ebx
-
-                mov hash, eax
-        }
-
-        return hash;
-    }
-};
-
-/*class JenkinsHash
-{
-public:
-    JenkinsHash() = default;
-    ~JenkinsHash() = default;
-
     unsigned int operator()(char* string)
     {
         uint32_t i = 0;
-        uint32_t len = strlen(string);
+        uint32_t len = fast_strlen(string);
         uint32_t hash = 0;
 
         while (i != len)
@@ -270,4 +245,3 @@ public:
         return hash;
     }
 };
-*/

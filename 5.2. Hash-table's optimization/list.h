@@ -91,7 +91,7 @@ public:
     {
         Node<T>* cur = back_;
 
-        while (cur && fast_strcmp(cur->value, value) != 0)
+        while (cur && ultra_strcmp(cur->value, value) != 0)
             cur = cur->prev;
 
         /*while (cur && strcmp(cur->value, value) != 0)
