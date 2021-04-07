@@ -145,7 +145,7 @@ Cool. Now let's turn on debug regime to know how other functions work:
 
 ## Code optimization №3 (fail)
 
-The first functions here are our perpose to boost. It's easy to notice that out hash function owns `strlen` call. Let's try to optimize it with AVX2:
+The first functions here are our purpose to boost. It's easy to notice that out hash function owns `strlen` call. We can get rig of it, but let's try to optimize it with AVX2 for the sake of interest:
 
 ```C++
 inline size_t fast_strlen(const char* str)
@@ -213,6 +213,32 @@ inline size_t ultra_strlen(const char* str)
 But this time we lose again...
 
 <img src="Readme pictures//Step5.png" alt="drawing" width="800"/>
+
+## Code optimization №3 3.0 (use trick)
+
+Okey. It seems that librarian `strlen` is fast enough. So exclude this function, because it is the best decision:
+
+```C++
+class CRC32Hash
+{
+public:
+    CRC32Hash() = default;
+    ~CRC32Hash() = default;
+
+    unsigned int operator()(char* string)
+    {
+        unsigned long crc = 0xFFFFFFFFUL;
+
+        for (; *string != 0; string += sizeof(uint32_t))
+            crc = _mm_crc32_u32(crc, *(const uint32_t*)string);
+     
+        return crc;
+    }
+};
+```
+The result is:
+
+<img src="Readme pictures//Step7.png" alt="drawing" width="800"/>
 
 ## Code optimization №4 (fail...)
 
