@@ -37,7 +37,7 @@ To compose photos the standard algorithm of alpha blending is applied:
 <img src="Photos//Scheme.png" alt="drawing" width="600"/>
 
 What concerns new alpha value, we do it possible maximum. To boost the program eexecution SSE instruction are used to handle all 3 colours of pixel at the same time.
-Doing this actions 10000 times, figure out that SSE program work 2.38 time faster than without SSE.
+Doing this actions 10000 times, figure out that SSE program work `2.38` times faster than without SSE.
 
 Here is the result of the program:
 
