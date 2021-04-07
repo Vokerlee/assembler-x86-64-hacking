@@ -1,5 +1,5 @@
 # Hash-table's optimization
-Let's optimize the program, that was considered in the [last chapter](https://github.com/Vokerlee/Assembly/tree/main/5.1.%20%20Hash-table's%20research) of hash-table's research. But, first, let's look at a little theory.
+Let's optimize the program, that was considered in the [last chapter](https://github.com/Vokerlee/Assembly/tree/master/5.1.%20%20Hash-table's%20research) of hash-table's research. But, first, let's look at a little theory.
 
 ## What's happening
 The work algorithm of hash-table:
