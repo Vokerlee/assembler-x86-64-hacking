@@ -43,5 +43,5 @@ Here is the result of the program:
 
 <p align="center">
     <img src="Photos//composed.jpg" alt="drawing" width="600"/>
-<\p>
+</p>
 
