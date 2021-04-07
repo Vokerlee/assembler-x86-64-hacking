@@ -297,7 +297,7 @@ inline bool ultra_strcmp(char* str1, char* str2)
 }
 ```
 
-Oh, shit... No comments.
+Oh, shit... Here we go again.
 
 <img src="Readme pictures//Step6.png" alt="drawing" width="800"/>
 
