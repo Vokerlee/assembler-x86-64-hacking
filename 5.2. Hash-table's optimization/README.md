@@ -5,9 +5,9 @@ Let's optimize the program, that was considered in the [last chapter](https://gi
 The work algorithm of hash-table:
 1. Reading words from some source.
 2. Calculating a hash-number of these words.
-3. This hash-number is the index in massive of our hash-table.
-4. Appropriate value is put in the massive.
-5. If some words have the same hash (that means the same index in massive), collision appears. To solve this problem lists are used. This picture explains everything:
+3. This hash-number is the index in array of our hash-table.
+4. Appropriate value is put in array.
+5. If some words have the same hash (that means the same index in array), collision appears. To solve this problem lists are used. This picture explains everything:
 
 <img src="Readme pictures//Hashtable.png" align="center" alt="drawing" width="600"/>
 
