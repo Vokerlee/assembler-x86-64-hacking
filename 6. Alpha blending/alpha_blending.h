@@ -13,14 +13,9 @@
 #include <xmmintrin.h>
 #include <smmintrin.h>
 
-const int BMP_FILE_SIZE_OFFSET = 0x2;
-const int BMP_FILE_OFFBITS_OFFSET = 0xA;
-const int BMP_FILE_WIDTH_OFFSET = 0x12;
-const int BMP_FILE_HEIGHT_OFFSET = 0x16;
-
-const int BYTES_PER_PIXEL = 4;
+const int BYTES_PER_PIXEL     = 4;
 const unsigned char MAX_ALPHA = 255;
-const int MAX_ALPHA_POW = 8;
+const int MAX_ALPHA_POW       = 8;
 
 // Here is the structure of BMP file
 #pragma pack(push, 2)
