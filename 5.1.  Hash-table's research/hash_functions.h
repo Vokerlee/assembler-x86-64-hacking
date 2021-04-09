@@ -127,7 +127,7 @@ public:
         while (length--)
             crc = crc_table[(crc ^ *string++) & 0xFF] ^ (crc >> 8);
 
-        return (crc ^ 0xFFFFFFFFUL) % TABLE_SIZE;
+        return (crc ^ 0xFFFFFFFFUL);
     }
 };
 
