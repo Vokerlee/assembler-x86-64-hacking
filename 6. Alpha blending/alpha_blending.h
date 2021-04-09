@@ -188,8 +188,8 @@ public:
                 // Mask for rearraging RGB colours in pixel data
                 // 0x80 = 0b10000000 for zeroing, others are indeces of pixels
                 __m128i mask_expand_bytes = _mm_setr_epi8(0, 0x80, 0x80, 0x80, 1, 0x80, 0x80, 0x80, 2, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80);
-                dst_colors   = _mm_shuffle_epi8(dst_colors, mask_expand_bytes);
-                src_colors   = _mm_shuffle_epi8(src_colors, mask_expand_bytes);
+                dst_colors = _mm_shuffle_epi8(dst_colors, mask_expand_bytes);
+                src_colors = _mm_shuffle_epi8(src_colors, mask_expand_bytes);
 
                 // Alpha blending multiplication
                 __m128i dest_colors_alpha_applied = _mm_mullo_epi32(dst_colors, alpha_vec);
