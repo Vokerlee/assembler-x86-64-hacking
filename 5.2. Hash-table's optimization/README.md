@@ -27,7 +27,7 @@ To research code we will use CRC32 hash function. Using time-profiler, get the f
 
 <img src="Readme pictures//Step1.png" alt="drawing" width="800"/>
 
-Wow wow wow! Function `CRC32Hash::operator()` takes 98% program execution! We need to fix it as soon as possible!
+Wow wow wow! Function `CRC32Hash::operator()` takes 98% of program execution! We need to fix it as soon as possible!
 
 ## Code optimization №1
 
@@ -68,7 +68,7 @@ public:
 ```
 
 It is awful! CRC-table `C++ unsigned long crc_table[256]` counts every time! Again and again! 
-Urgently fix this by counting the table only 1 time:
+Urgently fix it by counting the table only one time:
 
 ```C++
 class CRC32Hash
