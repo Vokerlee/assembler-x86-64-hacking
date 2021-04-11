@@ -1,5 +1,3 @@
-![GitHub lines](https://img.shields.io/tokei/lines/github/Vokerlee/Assembly)
-
 # Computer system arcitecture and Assembly language
 
 * Lecturer: Ilya Dedinskiy
