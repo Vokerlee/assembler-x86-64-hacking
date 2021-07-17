@@ -18,7 +18,7 @@ check_password:
 
 Next1:
                 mov dl, byte ptr [bx]
-		        cmp dl, '$'
+	        cmp dl, '$'
                 je sup1
                 cmp al, dl
                 jne end1
@@ -36,7 +36,7 @@ end1:
 sup1:
                 call success_print
 
-		        ret
+	        ret
 
 success_print:
                 mov bx, offset okey
@@ -51,7 +51,7 @@ next4:
                 jmp next4
 end4:
                 call exit
-		        ret
+	        ret
 
 fail_print:
                 mov bx, offset lox
@@ -66,7 +66,7 @@ next3:
 
 end3:
                 call exit
-		        ret
+	        ret
 
 hello_print:
                 mov bx, offset hello
@@ -85,7 +85,7 @@ end5:
 
 read_msg:
                 pop di
-		        mov cx, 0       ; low
+	        mov cx, 0       ; low
 
 next2:
                 mov ah, 01h
@@ -109,11 +109,11 @@ low_sit:
                 dec cx
 
 high_sit:	
-		        jmp next2
+	        jmp next2
 
 end2:
                 push di
-		        ret
+	        ret
 
 exit:		
                 mov ax, 4c00h
@@ -132,5 +132,3 @@ Start2:
                 call exit
       
 end             Start
-	
-
