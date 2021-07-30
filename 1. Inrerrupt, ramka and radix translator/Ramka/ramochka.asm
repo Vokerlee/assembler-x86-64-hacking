@@ -5,29 +5,29 @@
 ; All necessary ASCII codes and other constants:
 
 vacuum          = 0e00h         ; the empty symbol (space)
-background		= 4400h		; the symbol of loading
+background      = 4400h		; the symbol of loading
 string_color    = 00111000b
 
-left_upper		= 0ac9h         ; left  upper angle
-right_upper		= 0abbh         ; right upper angle
+left_upper      = 0ac9h         ; left  upper angle
+right_upper     = 0abbh         ; right upper angle
 
-right_down		= 0abch         ; right down angle
-left_down		= 0ac8h         ; left  down angle
+right_down      = 0abch         ; right down angle
+left_down       = 0ac8h         ; left  down angle
 
-horizontal		= 0acdh         ; horizontal line
-vertical		= 0abah         ; vertical   line
+horizontal      = 0acdh         ; horizontal line
+vertical        = 0abah         ; vertical   line
 
-videomemory		= 0b800h
+videomemory     = 0b800h
 
 
 ; The coordinates of the frame:
 
-x1				= 8           
-x2				= 72
-y1				= 5
-y2				= 15
-delx			equ x2 - x1
-dely			equ y2 - y1        
+x1              = 8           
+x2.             = 72
+y1              = 5
+y2              = 15
+delx            equ x2 - x1
+dely            equ y2 - y1        
 
 .code
 org 100h
